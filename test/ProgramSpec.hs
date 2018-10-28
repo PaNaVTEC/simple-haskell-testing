@@ -1,6 +1,6 @@
 {-# language DeriveFunctor #-}
 {-# language GeneralizedNewtypeDeriving #-}
-module Data.String.StripSpec (main, spec) where
+module ProgramSpec (main, spec) where
 
 import Test.Hspec
 import Test.QuickCheck
@@ -9,7 +9,7 @@ import Control.Monad.Trans
 import Control.Monad.Reader
 import Control.Monad.Writer
 
-import Data.String.Strip
+import Program
 
 main :: IO ()
 main = hspec spec

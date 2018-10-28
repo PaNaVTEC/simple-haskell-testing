@@ -1,6 +1,6 @@
 {-# LANGUAGE InstanceSigs #-}
 
-module Data.String.Strip where
+module Program where
 
 import Data.Char
 import Control.Monad.Trans
