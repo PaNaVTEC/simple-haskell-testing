@@ -5,9 +5,6 @@ module Program where
 import Data.Char
 import Control.Monad.Trans
 
-mainio :: IO ()
-mainio = liftIO program
-
 program :: UserInteraction m => m ()
 program = do
   response <- askUser
