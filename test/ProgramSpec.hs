@@ -26,9 +26,8 @@ instance UserInteraction TestM where
 spec :: Spec
 spec = do
   describe "User Interactions" $ do
-    it "something" $ do
+    it "says something" $ do
      executeProgramWith "Something" `shouldBe` "You said: Something"
 
-
 executeProgramWith :: String -> String
-executeProgramWith t = snd . runIdentity . runWriterT $ runReaderT (unTest program) t
+executeProgramWith = snd . runIdentity . runWriterT . (runReaderT $ unTest program)
