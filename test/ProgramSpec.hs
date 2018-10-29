@@ -34,9 +34,16 @@ spec = do
   describe "Store things" $ do
     it "increments a counter in state" $ do
       executeIncrementProgram 1 `shouldBe` 2
+    it "stores transactions" $ do
+      executeStoreProgram [Transaction 5 "Sample"] (Transaction 6 "Another")
+        `shouldBe`
+        [Transaction 6 "Another", Transaction 5 "Sample"]
 
 executeUserInteractionProgram :: String -> String
 executeUserInteractionProgram = snd . runIdentity . runWriterT . (runReaderT $ unTest userInteraction)
 
 executeIncrementProgram :: Int -> Int
 executeIncrementProgram = snd . runIdentity . runStateT increment
+
+executeStoreProgram :: [Transaction] -> Transaction -> [Transaction]
+executeStoreProgram currentStored t = snd . runIdentity $ runStateT (storeList t) currentStored
