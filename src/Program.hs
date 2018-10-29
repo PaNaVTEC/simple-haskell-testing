@@ -2,11 +2,11 @@
 
 module Program where
 
-import Data.Char
-import Control.Monad.Trans
+import Control.Monad.State
 
-program :: UserInteraction m => m ()
-program = do
+-- Simple IO
+userInteraction :: UserInteraction m => m ()
+userInteraction = do
   response <- askUser
   tellUser $ "You said: " ++ response
 
@@ -20,3 +20,10 @@ instance UserInteraction IO where
 
   tellUser :: String -> IO ()
   tellUser = putStrLn
+
+-- Storage
+increment :: (Num s, MonadState s m) => m ()
+increment = do
+  current <- get
+  _ <- put (current + 1)
+  return ()

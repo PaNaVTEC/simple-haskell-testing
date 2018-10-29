@@ -1,5 +1,6 @@
 {-# language DeriveFunctor #-}
 {-# language GeneralizedNewtypeDeriving #-}
+
 module ProgramSpec (main, spec) where
 
 import Test.Hspec
@@ -8,6 +9,7 @@ import Data.Functor.Identity
 import Control.Monad.Trans
 import Control.Monad.Reader
 import Control.Monad.Writer
+import Control.Monad.State
 
 import Program
 
@@ -27,7 +29,14 @@ spec :: Spec
 spec = do
   describe "User Interactions" $ do
     it "says something" $ do
-     executeProgramWith "Something" `shouldBe` "You said: Something"
+      executeUserInteractionProgram "Something" `shouldBe` "You said: Something"
 
-executeProgramWith :: String -> String
-executeProgramWith = snd . runIdentity . runWriterT . (runReaderT $ unTest program)
+  describe "Store things" $ do
+    it "increments a counter in state" $ do
+      executeIncrementProgram 1 `shouldBe` 2
+
+executeUserInteractionProgram :: String -> String
+executeUserInteractionProgram = snd . runIdentity . runWriterT . (runReaderT $ unTest userInteraction)
+
+executeIncrementProgram :: Int -> Int
+executeIncrementProgram = snd . runIdentity . runStateT increment
